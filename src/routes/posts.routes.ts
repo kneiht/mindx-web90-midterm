@@ -4,18 +4,6 @@ import type { Router as ExpressRouter } from 'express';
 
 const router: ExpressRouter = Router();
 
-router.post('/users/register', (req, res) => {
-  return res.json({
-    message: 'register',
-  });
-});
-
-router.post('/users/login', (req, res) => {
-  return res.json({
-    message: 'login',
-  });
-});
-
 router.get('/posts', (req, res) => {
   return res.json({
     message: 'get posts',
