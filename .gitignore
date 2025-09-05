@@ -1,0 +1,9 @@
+# Node project 
+node_modules/
+dist/
+
+# OS
+.DS_Store
+
+# Environment
+.env
