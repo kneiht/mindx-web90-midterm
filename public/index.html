@@ -331,8 +331,14 @@
     </div>
 
     <script>
-      const API_BASE = 'http://localhost:3000';
+      // Auto-detect API base URL based on environment
+      const API_BASE =
+        window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+          ? 'http://localhost:3000'
+          : window.location.origin; // Use same domain when deployed
       let currentUser = null;
+
+      console.log('🌐 API Base URL:', API_BASE);
 
       // Initialize app
       document.addEventListener('DOMContentLoaded', function () {
@@ -447,7 +453,7 @@
         const password = document.getElementById('login-password').value;
 
         try {
-          const response = await apiCall('/auth/login', {
+          const response = await apiCall('/api/auth/login', {
             method: 'POST',
             body: JSON.stringify({
               email: email,
@@ -480,7 +486,7 @@
         const password = document.getElementById('register-password').value;
 
         try {
-          const response = await apiCall('/auth/register', {
+          const response = await apiCall('/api/auth/register', {
             method: 'POST',
             body: JSON.stringify({
               email: email,
@@ -518,7 +524,7 @@
         const content = document.getElementById('post-content').value;
 
         try {
-          const response = await apiCall('/posts', {
+          const response = await apiCall('/api/posts', {
             method: 'POST',
             body: JSON.stringify({ content }),
           });
@@ -533,7 +539,7 @@
 
       async function loadPosts() {
         try {
-          const response = await apiCall('/posts');
+          const response = await apiCall('/api/posts');
           const posts = response.data || [];
 
           const postsListEl = document.getElementById('posts-list');
@@ -608,7 +614,7 @@
         const content = form.querySelector('textarea').value;
 
         try {
-          const response = await apiCall(`/posts/${postId}`, {
+          const response = await apiCall(`/api/posts/${postId}`, {
             method: 'PUT',
             body: JSON.stringify({ content }),
           });

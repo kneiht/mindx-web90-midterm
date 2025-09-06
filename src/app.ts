@@ -34,7 +34,7 @@ app.run = function () {
   expressApp.use(cors());
 
   // Routing
-  expressApp.use(router);
+  expressApp.use('/api', router);
   expressApp.get('/', (req, res) => {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
