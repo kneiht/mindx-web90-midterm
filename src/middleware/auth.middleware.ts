@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyUser } from '../services/auth.service';
-import { extractTokenFromHeader } from '../utils/jwt';
-import { success, error } from '../utils/response';
+import { verifyUser } from '../services/auth.service.js';
+import { extractTokenFromHeader } from '../utils/jwt.js';
+import { success, error } from '../utils/response.js';
 
 export async function authenticateToken(req: Request, res: Response, next: NextFunction) {
   const token = extractTokenFromHeader(req.headers.authorization);

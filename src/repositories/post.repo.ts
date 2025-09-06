@@ -1,6 +1,6 @@
 import { Document, Schema, Types } from 'mongoose';
 import mongoose from 'mongoose';
-import { Post } from '../models/post.model';
+import { Post } from '../models/post.model.js';
 
 export interface PostDocument extends Document {
   _id: mongoose.Types.ObjectId;

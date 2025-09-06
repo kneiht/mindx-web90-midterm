@@ -1,5 +1,10 @@
-import { createPost, findPostById, updatePost, getPostsByUserId } from '../repositories/post.repo';
-import { Post } from '../models/post.model';
+import {
+  createPost,
+  findPostById,
+  updatePost,
+  getPostsByUserId,
+} from '../repositories/post.repo.js';
+import { Post } from '../models/post.model.js';
 
 // Create a new post
 export async function createNewPost(userId: string, content: string): Promise<Post> {

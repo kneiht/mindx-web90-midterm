@@ -1,5 +1,5 @@
 import type { Response } from 'express';
-import type { SuccessResponse, ErrorReponse } from '../types/api.type';
+import type { SuccessResponse, ErrorReponse } from '../types/api.type.js';
 
 // Success response helper
 export function success<T>(res: Response, data: T, message = 'Success', statusCode = 200) {

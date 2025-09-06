@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import type { Router as ExpressRouter, Request, Response } from 'express';
-import { registerUser, loginUser } from '../services/auth.service';
-import { created, error, loggedIn, success } from '../utils/response';
+import { registerUser, loginUser } from '../services/auth.service.js';
+import { created, error, loggedIn, success } from '../utils/response.js';
 
 const router: ExpressRouter = Router();
 

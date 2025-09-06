@@ -1,9 +1,9 @@
 import express from 'express';
-import { db, type DB } from './db';
-import router from './routes';
-import { errorHandler } from './middleware/error-handler.middleware';
+import { db, type DB } from './db/index.js';
+import router from './routes/index.js';
+import { errorHandler } from './middleware/error-handler.middleware.js';
 import cors from 'cors';
-import { logger } from './middleware/logger.middleware';
+import { logger } from './middleware/logger.middleware.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 

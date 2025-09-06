@@ -1,7 +1,7 @@
-import { createUser, findUserByEmail } from '../repositories/user.repo';
-import { User } from '../models/user.model';
-import { hashPassword, comparePassword } from '../utils/password';
-import { generateAccessToken, verifyToken } from '../utils/jwt';
+import { createUser, findUserByEmail } from '../repositories/user.repo.js';
+import { User } from '../models/user.model.js';
+import { hashPassword, comparePassword } from '../utils/password.js';
+import { generateAccessToken, verifyToken } from '../utils/jwt.js';
 
 export async function registerUser(
   email: string,

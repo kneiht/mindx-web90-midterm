@@ -1,6 +1,6 @@
-import { serverError } from '../utils/response';
+import { serverError } from '../utils/response.js';
 import type { Request, Response, NextFunction } from 'express';
-import app from '../app';
+import app from '../app.js';
 
 export function errorHandler(err: Error, req: Request, res: Response, _next: NextFunction) {
   const env = app.config.env;

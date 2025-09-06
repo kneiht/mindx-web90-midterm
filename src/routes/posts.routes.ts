@@ -1,14 +1,14 @@
 import { Router } from 'express';
 import type { Router as ExpressRouter, Request, Response } from 'express';
-import { authenticateToken } from '../middleware/auth.middleware';
+import { authenticateToken } from '../middleware/auth.middleware.js';
 import {
   createNewPost,
   getPostById,
   updateExistingPost,
   getPostsByUser,
-} from '../services/post.service';
-import { User } from '../models/user.model';
-import { created, notFound, success, serverError, badRequest } from '../utils/response';
+} from '../services/post.service.js';
+import { User } from '../models/user.model.js';
+import { created, notFound, success, serverError, badRequest } from '../utils/response.js';
 
 const router: ExpressRouter = Router();
 
