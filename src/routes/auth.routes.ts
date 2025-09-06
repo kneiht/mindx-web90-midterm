@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import type { Router as ExpressRouter, Request, Response } from 'express';
 import { registerUser, loginUser } from '../services/auth.service';
-import { created, loggedIn, success } from '../utils/response';
+import { created, error, loggedIn, success } from '../utils/response';
 
 const router: ExpressRouter = Router();
 
@@ -15,7 +15,7 @@ router.post('/login', async (req: Request, res: Response) => {
   const { email, passwordHash } = req.body;
   const user = await loginUser(email, passwordHash);
   if (!user) {
-    return res.status(401).json({ message: 'Invalid email or password' });
+    return error(res, 'Invalid email or password');
   }
   return loggedIn(res, user);
 });

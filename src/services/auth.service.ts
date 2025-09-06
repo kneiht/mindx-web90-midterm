@@ -32,7 +32,7 @@ export async function registerUser(
 
 export async function loginUser(
   email: string,
-  passwordHash: string
+  password: string
 ): Promise<{ user: User; token: string } | null> {
   // Find user by email
   const user = await findUserByEmail(email);
@@ -40,11 +40,11 @@ export async function loginUser(
     return null;
   }
 
-  // Compare password
-  const isMatch = await comparePassword(passwordHash, user.passwordHash);
+  // Compare password with stored hash
+  const isMatch = await comparePassword(password, user.passwordHash);
 
-  // Check if passwordHash matches
-  if (isMatch) {
+  // Check if password doesn't match
+  if (!isMatch) {
     return null;
   }
 

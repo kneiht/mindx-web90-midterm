@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindX Posts App</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: #333;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .header {
+        text-align: center;
+        color: white;
+        margin-bottom: 30px;
+      }
+
+      .auth-section,
+      .posts-section {
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #555;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+      }
+
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      .btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn-secondary {
+        background: #6c757d;
+      }
+
+      .btn-danger {
+        background: #dc3545;
+      }
+
+      .btn-warning {
+        background: #ffc107;
+        color: #333;
+      }
+
+      .post-item {
+        background: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 15px;
+        transition: box-shadow 0.2s ease;
+      }
+
+      .post-item:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .post-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .post-id {
+        font-size: 12px;
+        color: #666;
+        background: #e9ecef;
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+
+      .post-actions {
+        display: flex;
+        gap: 5px;
+      }
+
+      .post-content {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 15px;
+      }
+
+      .post-dates {
+        font-size: 12px;
+        color: #666;
+        margin-top: 10px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .user-info {
+        background: #e9ecef;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .message {
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+
+      .message.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .message.error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .tabs {
+        display: flex;
+        margin-bottom: 20px;
+      }
+
+      .tab {
+        background: #f8f9fa;
+        border: 1px solid #ddd;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 6px 6px 0 0;
+        margin-right: 5px;
+      }
+
+      .tab.active {
+        background: white;
+        border-bottom: 1px solid white;
+      }
+
+      .edit-form {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 6px;
+        padding: 15px;
+        margin-top: 15px;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 10px;
+        }
+
+        .post-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+
+        .post-actions {
+          align-self: flex-end;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🚀 MindX Posts App</h1>
+        <p>Ứng dụng quản lý bài viết đơn giản</p>
+      </div>
+
+      <!-- Message Display -->
+      <div id="message" class="message hidden"></div>
+
+      <!-- Authentication Section -->
+      <div id="auth-section" class="auth-section">
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab('login', event)">Đăng nhập</div>
+          <div class="tab" onclick="switchTab('register', event)">Đăng ký</div>
+        </div>
+
+        <!-- Login Form -->
+        <div id="login-form">
+          <h2>Đăng nhập</h2>
+          <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+              <label for="login-email">Email:</label>
+              <input type="email" id="login-email" required />
+            </div>
+            <div class="form-group">
+              <label for="login-password">Mật khẩu:</label>
+              <input type="password" id="login-password" required />
+            </div>
+            <button type="submit" class="btn">Đăng nhập</button>
+          </form>
+        </div>
+
+        <!-- Register Form -->
+        <div id="register-form" class="hidden">
+          <h2>Đăng ký</h2>
+          <form onsubmit="handleRegister(event)">
+            <div class="form-group">
+              <label for="register-email">Email:</label>
+              <input type="email" id="register-email" required />
+            </div>
+            <div class="form-group">
+              <label for="register-username">Tên người dùng:</label>
+              <input type="text" id="register-username" required />
+            </div>
+            <div class="form-group">
+              <label for="register-password">Mật khẩu:</label>
+              <input type="password" id="register-password" required />
+            </div>
+            <button type="submit" class="btn">Đăng ký</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Posts Section -->
+      <div id="posts-section" class="posts-section hidden">
+        <!-- User Info -->
+        <div class="user-info">
+          <div>
+            <strong>Xin chào, <span id="user-name"></span>!</strong>
+            <br /><small>Email: <span id="user-email"></span></small>
+          </div>
+          <button class="btn btn-secondary" onclick="logout()">Đăng xuất</button>
+        </div>
+
+        <!-- Create Post Form -->
+        <div>
+          <h3>Tạo bài viết mới</h3>
+          <form onsubmit="handleCreatePost(event)">
+            <div class="form-group">
+              <label for="post-content">Nội dung:</label>
+              <textarea
+                id="post-content"
+                placeholder="Nhập nội dung bài viết..."
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="btn">Đăng bài</button>
+          </form>
+        </div>
+
+        <hr style="margin: 30px 0; border: none; height: 1px; background: #ddd" />
+
+        <!-- Posts List -->
+        <div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 20px;
+            "
+          >
+            <h3>Bài viết của tôi</h3>
+            <button class="btn btn-secondary" onclick="loadPosts()">🔄 Tải lại</button>
+          </div>
+          <div id="posts-list">
+            <p style="text-align: center; color: #666">Đang tải bài viết...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE = 'http://localhost:3000';
+      let currentUser = null;
+
+      // Initialize app
+      document.addEventListener('DOMContentLoaded', function () {
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
+
+        if (token && user) {
+          currentUser = JSON.parse(user);
+          showPostsSection();
+          loadPosts();
+        }
+      });
+
+      // Utility Functions
+      function showMessage(message, type = 'success') {
+        const messageEl = document.getElementById('message');
+        messageEl.textContent = message;
+        messageEl.className = `message ${type}`;
+        messageEl.classList.remove('hidden');
+
+        setTimeout(() => {
+          messageEl.classList.add('hidden');
+        }, 5000);
+      }
+
+      function switchTab(tab, event) {
+        // Update tab buttons
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+        // Activate the clicked tab if event is provided, otherwise find by tab name
+        if (event && event.target) {
+          event.target.classList.add('active');
+        } else {
+          const tabs = document.querySelectorAll('.tab');
+          if (tab === 'login') {
+            tabs[0].classList.add('active'); // First tab is login
+          } else {
+            tabs[1].classList.add('active'); // Second tab is register
+          }
+        }
+
+        // Show/hide forms
+        if (tab === 'login') {
+          document.getElementById('login-form').classList.remove('hidden');
+          document.getElementById('register-form').classList.add('hidden');
+        } else {
+          document.getElementById('login-form').classList.add('hidden');
+          document.getElementById('register-form').classList.remove('hidden');
+        }
+      }
+
+      function showPostsSection() {
+        document.getElementById('auth-section').classList.add('hidden');
+        document.getElementById('posts-section').classList.remove('hidden');
+        document.getElementById('user-name').textContent = currentUser.userName;
+        document.getElementById('user-email').textContent = currentUser.email;
+      }
+
+      function showAuthSection() {
+        document.getElementById('auth-section').classList.remove('hidden');
+        document.getElementById('posts-section').classList.add('hidden');
+      }
+
+      // API Functions
+      async function apiCall(endpoint, options = {}) {
+        const token = localStorage.getItem('token');
+        const headers = {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+          ...options.headers,
+        };
+
+        // Debug: Log the request details
+        console.log('🚀 API Request:', {
+          url: `${API_BASE}${endpoint}`,
+          method: options.method || 'GET',
+          headers,
+          hasToken: !!token,
+        });
+
+        try {
+          const response = await fetch(`${API_BASE}${endpoint}`, {
+            ...options,
+            headers,
+          });
+
+          const data = await response.json();
+
+          // Debug: Log the response
+          console.log('📨 API Response:', {
+            status: response.status,
+            ok: response.ok,
+            data,
+          });
+
+          if (!response.ok) {
+            throw new Error(data.message || `HTTP ${response.status}`);
+          }
+
+          return data;
+        } catch (error) {
+          console.error('API Error:', error);
+          throw error;
+        }
+      }
+
+      // Authentication Handlers
+      async function handleLogin(event) {
+        event.preventDefault();
+
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+
+        try {
+          const response = await apiCall('/auth/login', {
+            method: 'POST',
+            body: JSON.stringify({
+              email: email,
+              passwordHash: password,
+            }),
+          });
+
+          // Save token and user info
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+          currentUser = response.data.user;
+
+          showMessage('Đăng nhập thành công!');
+          showPostsSection();
+          loadPosts();
+
+          // Clear form
+          document.getElementById('login-email').value = '';
+          document.getElementById('login-password').value = '';
+        } catch (error) {
+          showMessage('Đăng nhập thất bại: ' + error.message, 'error');
+        }
+      }
+
+      async function handleRegister(event) {
+        event.preventDefault();
+
+        const email = document.getElementById('register-email').value;
+        const userName = document.getElementById('register-username').value;
+        const password = document.getElementById('register-password').value;
+
+        try {
+          const response = await apiCall('/auth/register', {
+            method: 'POST',
+            body: JSON.stringify({
+              email: email,
+              userName: userName,
+              passwordHash: password,
+            }),
+          });
+
+          showMessage('Đăng ký thành công! Hãy đăng nhập để tiếp tục.');
+
+          // Switch to login tab
+          switchTab('login');
+
+          // Clear form
+          document.getElementById('register-email').value = '';
+          document.getElementById('register-username').value = '';
+          document.getElementById('register-password').value = '';
+        } catch (error) {
+          showMessage('Đăng ký thất bại: ' + error.message, 'error');
+        }
+      }
+
+      function logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        currentUser = null;
+        showAuthSection();
+        showMessage('Đã đăng xuất!');
+      }
+
+      // Post Handlers
+      async function handleCreatePost(event) {
+        event.preventDefault();
+
+        const content = document.getElementById('post-content').value;
+
+        try {
+          const response = await apiCall('/posts', {
+            method: 'POST',
+            body: JSON.stringify({ content }),
+          });
+
+          showMessage('Tạo bài viết thành công!');
+          document.getElementById('post-content').value = '';
+          loadPosts();
+        } catch (error) {
+          showMessage('Tạo bài viết thất bại: ' + error.message, 'error');
+        }
+      }
+
+      async function loadPosts() {
+        try {
+          const response = await apiCall('/posts');
+          const posts = response.data || [];
+
+          const postsListEl = document.getElementById('posts-list');
+
+          if (posts.length === 0) {
+            postsListEl.innerHTML =
+              '<p style="text-align: center; color: #666;">Bạn chưa có bài viết nào.</p>';
+            return;
+          }
+
+          postsListEl.innerHTML = posts
+            .map(
+              post => `
+                    <div class="post-item" data-id="${post.id}">
+                        <div class="post-header">
+                            <div class="post-id">ID: ${post.id}</div>
+                            <div class="post-actions">
+                                <button class="btn btn-warning" onclick="editPost('${post.id}', this)">✏️ Sửa</button>
+                                <button class="btn btn-danger" onclick="deletePost('${post.id}')">🗑️ Xóa</button>
+                            </div>
+                        </div>
+                        <div class="post-content">${post.content}</div>
+                        <div class="post-dates">
+                            <div>Tạo lúc: ${new Date(post.createdAt).toLocaleString('vi-VN')}</div>
+                            ${post.updatedAt !== post.createdAt ? `<div>Cập nhật: ${new Date(post.updatedAt).toLocaleString('vi-VN')}</div>` : ''}
+                        </div>
+                    </div>
+                `
+            )
+            .join('');
+        } catch (error) {
+          showMessage('Tải bài viết thất bại: ' + error.message, 'error');
+        }
+      }
+
+      async function editPost(postId, buttonEl) {
+        const postItem = buttonEl.closest('.post-item');
+        const contentEl = postItem.querySelector('.post-content');
+        const currentContent = contentEl.textContent;
+
+        // Check if already editing
+        if (postItem.querySelector('.edit-form')) {
+          return;
+        }
+
+        // Create edit form
+        const editForm = document.createElement('div');
+        editForm.className = 'edit-form';
+        editForm.innerHTML = `
+                <form onsubmit="handleUpdatePost(event, '${postId}')">
+                    <div class="form-group">
+                        <label>Nội dung mới:</label>
+                        <textarea required style="min-height: 80px;">${currentContent}</textarea>
+                    </div>
+                    <button type="submit" class="btn">💾 Lưu</button>
+                    <button type="button" class="btn btn-secondary" onclick="cancelEdit(this)">❌ Hủy</button>
+                </form>
+            `;
+
+        postItem.appendChild(editForm);
+      }
+
+      function cancelEdit(buttonEl) {
+        const editForm = buttonEl.closest('.edit-form');
+        editForm.remove();
+      }
+
+      async function handleUpdatePost(event, postId) {
+        event.preventDefault();
+
+        const form = event.target;
+        const content = form.querySelector('textarea').value;
+
+        try {
+          const response = await apiCall(`/posts/${postId}`, {
+            method: 'PUT',
+            body: JSON.stringify({ content }),
+          });
+
+          showMessage('Cập nhật bài viết thành công!');
+          loadPosts();
+        } catch (error) {
+          showMessage('Cập nhật bài viết thất bại: ' + error.message, 'error');
+        }
+      }
+
+      async function deletePost(postId) {
+        if (!confirm('Bạn có chắc chắn muốn xóa bài viết này?')) {
+          return;
+        }
+
+        try {
+          // Note: Backend doesn't have DELETE endpoint, so we'll show a message
+          showMessage('Chức năng xóa bài viết chưa được triển khai trên backend.', 'error');
+        } catch (error) {
+          showMessage('Xóa bài viết thất bại: ' + error.message, 'error');
+        }
+      }
+
+      // Handle token expiration
+      window.addEventListener('unhandledrejection', function (event) {
+        if (event.reason && event.reason.message && event.reason.message.includes('401')) {
+          logout();
+          showMessage('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.', 'error');
+        }
+      });
+    </script>
+  </body>
+</html>

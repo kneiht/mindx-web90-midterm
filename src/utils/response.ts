@@ -9,6 +9,7 @@ export function success<T>(res: Response, data: T, message = 'Success', statusCo
     data,
     statusCode,
   };
+  console.log(response);
   return res.status(statusCode).json(response);
 }
 
@@ -20,6 +21,7 @@ export function error(res: Response, message = 'Error', statusCode = 400) {
     error: message,
     statusCode,
   };
+  console.log(response);
   return res.status(statusCode).json(response);
 }
 
@@ -50,5 +52,10 @@ export function notFound(res: Response, message = 'Not found', statusCode = 404)
 
 // Internal server error response helper
 export function serverError(res: Response, message = 'Internal server error', statusCode = 500) {
+  return error(res, message, statusCode);
+}
+
+// Bad request response helper
+export function badRequest(res: Response, message = 'Bad request', statusCode = 400) {
   return error(res, message, statusCode);
 }

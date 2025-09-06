@@ -61,13 +61,3 @@ export async function findUserByEmail(email: string): Promise<User | null> {
     passwordHash: user.passwordHash,
   };
 }
-
-export async function getAllUsers(): Promise<User[]> {
-  const users = await UserModel.find({});
-  return users.map(user => ({
-    id: user._id.toString(),
-    email: user.email.toString(),
-    userName: user.userName,
-    passwordHash: user.passwordHash,
-  }));
-}

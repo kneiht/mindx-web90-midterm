@@ -3,5 +3,5 @@ export interface Post {
   userId: string;
   content: string;
   createdAt: Date;
-  udpatedAt: Date;
+  updatedAt: Date;
 }
