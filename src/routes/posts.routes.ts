@@ -1,25 +1,15 @@
+import { authenticateToken } from '../middleware/auth.middleware';
 import { Router } from 'express';
-// Nhắn thấy: chỗ này ts yêu cầu thêm type của router vào nếu không nó báo lỗi
 import type { Router as ExpressRouter } from 'express';
 
 const router: ExpressRouter = Router();
 
-router.get('/posts', (req, res) => {
+// Apply auth middleware to all routes in this router
+router.use(authenticateToken);
+
+router.get('/', (req, res) => {
   return res.json({
     message: 'get posts',
-  });
-});
-
-router.post('/posts', (req, res) => {
-  return res.json({
-    message: 'create posts',
-  });
-});
-
-router.get('/posts/:id', (req, res) => {
-  const { id } = req.params;
-  return res.json({
-    message: `get post with id: ${id}`,
   });
 });
 

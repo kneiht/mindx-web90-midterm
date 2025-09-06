@@ -6,8 +6,9 @@ import postRoutes from './posts.routes';
 
 const router = Router();
 
-router.use(authRoutes);
-router.use(userRoutes);
-router.use(postRoutes);
+// Mount routes with specific prefixes
+router.use('/auth', authRoutes);
+router.use('/users', userRoutes);
+router.use('/posts', postRoutes);
 
 export default router;

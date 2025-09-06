@@ -66,7 +66,7 @@ export async function verifyUser(token: string): Promise<User | null> {
   // Verify token
   const { userId, email, username } = verifyToken(token);
 
-  // Find user by id
+  // Find user by email
   const user = await findUserByEmail(email);
   if (!user) {
     return null;

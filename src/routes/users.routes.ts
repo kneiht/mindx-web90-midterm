@@ -4,7 +4,7 @@ import { getUsers } from '../services/user.service';
 
 const router: ExpressRouter = Router();
 
-router.get('/users', async (req, res) => {
+router.get('/', async (req, res) => {
   const users = await getUsers();
   return res.json(users);
 });
