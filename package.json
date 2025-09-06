@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
     "express": "^5.1.0",
     "mongoose": "^8.18.0"
   },
@@ -9,6 +11,7 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^24.3.1",

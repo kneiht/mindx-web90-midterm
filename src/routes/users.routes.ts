@@ -1,13 +1,12 @@
 import { Router } from 'express';
-// Nhắn thấy: chỗ này ts yêu cầu thêm type của router vào nếu không nó báo lỗi
 import type { Router as ExpressRouter } from 'express';
+import { getUsers } from '../services/user.service';
 
 const router: ExpressRouter = Router();
 
-router.get('/users', (req, res) => {
-  return res.json({
-    message: 'get all users',
-  });
+router.get('/users', async (req, res) => {
+  const users = await getUsers();
+  return res.json(users);
 });
 
 export default router;

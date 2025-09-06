@@ -33,6 +33,16 @@ export function created<T>(
   return success(res, data, message, statusCode);
 }
 
+// Logged in response helper
+export function loggedIn<T>(
+  res: Response,
+  data: T,
+  message = 'Login successful',
+  statusCode = 200
+) {
+  return success(res, data, message, statusCode);
+}
+
 // Not found response helper
 export function notFound(res: Response, message = 'Not found', statusCode = 404) {
   return error(res, message, statusCode);

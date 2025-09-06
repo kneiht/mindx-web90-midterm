@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindX Midterm Project</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .nav-tabs {
+        display: flex;
+        background: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+      }
+
+      .nav-tab {
+        flex: 1;
+        padding: 1rem;
+        text-align: center;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #495057;
+        transition: all 0.3s ease;
+      }
+
+      .nav-tab.active {
+        background: white;
+        color: #007bff;
+        border-bottom: 2px solid #007bff;
+      }
+
+      .nav-tab:hover {
+        background: #e9ecef;
+      }
+
+      .tab-content {
+        padding: 2rem;
+        min-height: 500px;
+      }
+
+      .tab-pane {
+        display: none;
+      }
+
+      .tab-pane.active {
+        display: block;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #333;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-block;
+        text-decoration: none;
+        text-align: center;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #0056b3, #004085);
+        transform: translateY(-2px);
+      }
+
+      .btn-success {
+        background: linear-gradient(135deg, #28a745, #1e7e34);
+        color: white;
+      }
+
+      .btn-success:hover {
+        background: linear-gradient(135deg, #1e7e34, #155724);
+        transform: translateY(-2px);
+      }
+
+      .btn-info {
+        background: linear-gradient(135deg, #17a2b8, #117a8b);
+        color: white;
+      }
+
+      .btn-info:hover {
+        background: linear-gradient(135deg, #117a8b, #0c5460);
+        transform: translateY(-2px);
+      }
+
+      .alert {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        font-weight: 500;
+      }
+
+      .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .alert-error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .auth-forms {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .auth-card {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 12px;
+        border: 1px solid #e9ecef;
+      }
+
+      .auth-card h3 {
+        margin-bottom: 1.5rem;
+        color: #333;
+        text-align: center;
+      }
+
+      .posts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .post-card {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 1px solid #e9ecef;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .post-card h4 {
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+
+      .post-card p {
+        color: #666;
+        line-height: 1.5;
+      }
+
+      .users-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .user-card {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+        text-align: center;
+      }
+
+      .user-card h4 {
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+
+      .user-card p {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 2rem;
+        color: #666;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+      }
+
+      @media (max-width: 768px) {
+        .auth-forms {
+          grid-template-columns: 1fr;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-tab {
+          font-size: 0.9rem;
+          padding: 0.75rem;
+        }
+
+        .actions {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🚀 MindX Midterm Project</h1>
+        <p>Full-stack application with authentication and posts</p>
+      </div>
+
+      <div class="nav-tabs">
+        <button class="nav-tab active" onclick="showTab('auth')">🔐 Authentication</button>
+        <button class="nav-tab" onclick="showTab('posts')">📝 Posts</button>
+        <button class="nav-tab" onclick="showTab('users')">👥 Users</button>
+      </div>
+
+      <div class="tab-content">
+        <!-- Authentication Tab -->
+        <div id="auth-tab" class="tab-pane active">
+          <div id="auth-message"></div>
+
+          <div class="auth-forms">
+            <!-- Register Form -->
+            <div class="auth-card">
+              <h3>📝 Register</h3>
+              <form id="register-form">
+                <div class="form-group">
+                  <label for="reg-email">Email</label>
+                  <input type="email" id="reg-email" class="form-control" required />
+                </div>
+                <div class="form-group">
+                  <label for="reg-username">Username</label>
+                  <input type="text" id="reg-username" class="form-control" required />
+                </div>
+                <div class="form-group">
+                  <label for="reg-password">Password</label>
+                  <input type="password" id="reg-password" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-success" style="width: 100%">
+                  Register Account
+                </button>
+              </form>
+            </div>
+
+            <!-- Login Form -->
+            <div class="auth-card">
+              <h3>🔑 Login</h3>
+              <form id="login-form">
+                <div class="form-group">
+                  <label for="login-email">Email</label>
+                  <input type="email" id="login-email" class="form-control" required />
+                </div>
+                <div class="form-group">
+                  <label for="login-password">Password</label>
+                  <input type="password" id="login-password" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%">Login</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Posts Tab -->
+        <div id="posts-tab" class="tab-pane">
+          <h2>📝 Posts Management</h2>
+          <div id="posts-message"></div>
+
+          <!-- Create Post Form -->
+          <div class="auth-card">
+            <h3>✍️ Create New Post</h3>
+            <form id="create-post-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="post-title">Title</label>
+                  <input type="text" id="post-title" class="form-control" required />
+                </div>
+                <div class="form-group">
+                  <label for="post-author">Author</label>
+                  <input type="text" id="post-author" class="form-control" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="post-content">Content</label>
+                <textarea id="post-content" class="form-control" rows="4" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-success">📤 Create Post</button>
+            </form>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-info" onclick="loadPosts()">🔄 Refresh Posts</button>
+          </div>
+
+          <!-- Posts Display -->
+          <div id="posts-container">
+            <div class="loading">Click "Refresh Posts" to load posts...</div>
+          </div>
+        </div>
+
+        <!-- Users Tab -->
+        <div id="users-tab" class="tab-pane">
+          <h2>👥 Users Management</h2>
+          <div id="users-message"></div>
+
+          <div class="actions">
+            <button class="btn btn-info" onclick="loadUsers()">🔄 Load Users</button>
+          </div>
+
+          <!-- Users Display -->
+          <div id="users-container">
+            <div class="loading">Click "Load Users" to see all users...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Configuration
+      const API_BASE = 'http://localhost:3000';
+
+      // Tab Management
+      function showTab(tabName) {
+        // Hide all tab panes
+        document.querySelectorAll('.tab-pane').forEach(pane => {
+          pane.classList.remove('active');
+        });
+
+        // Remove active class from all tabs
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+          tab.classList.remove('active');
+        });
+
+        // Show selected tab pane
+        document.getElementById(tabName + '-tab').classList.add('active');
+
+        // Add active class to clicked tab
+        event.target.classList.add('active');
+      }
+
+      // Utility Functions
+      function showMessage(containerId, message, type = 'success') {
+        const container = document.getElementById(containerId);
+        container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+          container.innerHTML = '';
+        }, 5000);
+      }
+
+      function clearMessages() {
+        document.querySelectorAll('[id$="-message"]').forEach(el => {
+          el.innerHTML = '';
+        });
+      }
+
+      // API Functions
+      async function makeRequest(url, options = {}) {
+        try {
+          const response = await fetch(API_BASE + url, {
+            headers: {
+              'Content-Type': 'application/json',
+              ...options.headers,
+            },
+            ...options,
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || 'Request failed');
+          }
+
+          return data;
+        } catch (error) {
+          console.error('API Error:', error);
+          throw error;
+        }
+      }
+
+      // Authentication Functions
+      async function registerUser(email, username, password) {
+        try {
+          const data = await makeRequest('/auth/register', {
+            method: 'POST',
+            body: JSON.stringify({
+              email,
+              userName: username,
+              passwordHash: password, // Backend expects passwordHash
+            }),
+          });
+
+          const userName = data.user?.userName || username;
+          showMessage(
+            'auth-message',
+            `✅ Registration successful, ${userName}! You can now login.`,
+            'success'
+          );
+          document.getElementById('register-form').reset();
+          return data;
+        } catch (error) {
+          showMessage('auth-message', `❌ Registration failed: ${error.message}`, 'error');
+          throw error;
+        }
+      }
+
+      async function loginUser(email, password) {
+        try {
+          const data = await makeRequest('/auth/login', {
+            method: 'POST',
+            body: JSON.stringify({
+              email,
+              passwordHash: password, // Backend expects passwordHash
+            }),
+          });
+
+          const userName = data.user?.userName || 'User';
+          showMessage('auth-message', `✅ Login successful! Welcome back, ${userName}.`, 'success');
+          document.getElementById('login-form').reset();
+
+          // Store user data for potential future use
+          localStorage.setItem('currentUser', JSON.stringify(data.user));
+
+          return data;
+        } catch (error) {
+          showMessage('auth-message', `❌ Login failed: ${error.message}`, 'error');
+          throw error;
+        }
+      }
+
+      // Posts Functions
+      async function createPost(title, content, author) {
+        try {
+          const data = await makeRequest('/posts', {
+            method: 'POST',
+            body: JSON.stringify({
+              title,
+              content,
+              author,
+            }),
+          });
+
+          showMessage('posts-message', '✅ Post created successfully!', 'success');
+          document.getElementById('create-post-form').reset();
+
+          // Refresh posts after creating
+          await loadPosts();
+          return data;
+        } catch (error) {
+          showMessage('posts-message', `❌ Failed to create post: ${error.message}`, 'error');
+          throw error;
+        }
+      }
+
+      async function loadPosts() {
+        try {
+          document.getElementById('posts-container').innerHTML =
+            '<div class="loading">Loading posts...</div>';
+
+          const data = await makeRequest('/posts');
+
+          const postsHtml =
+            Array.isArray(data.posts) && data.posts.length > 0
+              ? data.posts
+                  .map(
+                    post => `
+                        <div class="post-card">
+                            <h4>${post.title || 'Untitled'}</h4>
+                            <p><strong>Author:</strong> ${post.author || 'Unknown'}</p>
+                            <p>${post.content || 'No content available'}</p>
+                            <small>ID: ${post.id || 'N/A'}</small>
+                        </div>
+                    `
+                  )
+                  .join('')
+              : '<div class="loading">📝 No posts available yet. Create your first post!</div>';
+
+          document.getElementById('posts-container').innerHTML =
+            `<div class="posts-grid">${postsHtml}</div>`;
+        } catch (error) {
+          document.getElementById('posts-container').innerHTML = `
+                    <div class="alert alert-error">
+                        ❌ Failed to load posts: ${error.message}
+                        <br><small>Make sure your backend server is running on ${API_BASE}</small>
+                    </div>
+                `;
+        }
+      }
+
+      async function loadPostById(id) {
+        try {
+          const data = await makeRequest(`/posts/${id}`);
+          showMessage('posts-message', `✅ Post loaded: ${data.message}`, 'success');
+          return data;
+        } catch (error) {
+          showMessage('posts-message', `❌ Failed to load post: ${error.message}`, 'error');
+          throw error;
+        }
+      }
+
+      // Users Functions
+      async function loadUsers() {
+        try {
+          document.getElementById('users-container').innerHTML =
+            '<div class="loading">Loading users...</div>';
+
+          const data = await makeRequest('/users');
+
+          const usersHtml =
+            Array.isArray(data.users) && data.users.length > 0
+              ? data.users
+                  .map(
+                    user => `
+                        <div class="user-card">
+                            <h4>${user.userName || user.username || 'Unknown User'}</h4>
+                            <p>📧 ${user.email || 'No email'}</p>
+                            <small>ID: ${user.id || user._id || 'N/A'}</small>
+                        </div>
+                    `
+                  )
+                  .join('')
+              : '<div class="loading">👥 No users found. Register some users first!</div>';
+
+          document.getElementById('users-container').innerHTML =
+            `<div class="users-list">${usersHtml}</div>`;
+        } catch (error) {
+          document.getElementById('users-container').innerHTML = `
+                    <div class="alert alert-error">
+                        ❌ Failed to load users: ${error.message}
+                        <br><small>Make sure your backend server is running on ${API_BASE}</small>
+                    </div>
+                `;
+        }
+      }
+
+      // Event Listeners
+      document.getElementById('register-form').addEventListener('submit', async e => {
+        e.preventDefault();
+        clearMessages();
+
+        const email = document.getElementById('reg-email').value;
+        const username = document.getElementById('reg-username').value;
+        const password = document.getElementById('reg-password').value;
+
+        await registerUser(email, username, password);
+      });
+
+      document.getElementById('login-form').addEventListener('submit', async e => {
+        e.preventDefault();
+        clearMessages();
+
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+
+        await loginUser(email, password);
+      });
+
+      document.getElementById('create-post-form').addEventListener('submit', async e => {
+        e.preventDefault();
+        clearMessages();
+
+        const title = document.getElementById('post-title').value;
+        const content = document.getElementById('post-content').value;
+        const author = document.getElementById('post-author').value;
+
+        await createPost(title, content, author);
+      });
+
+      // Initialize
+      document.addEventListener('DOMContentLoaded', function () {
+        console.log('🚀 MindX Frontend initialized');
+        console.log('📡 API Base URL:', API_BASE);
+
+        // Check if backend is reachable
+        fetch(API_BASE)
+          .then(response => response.json())
+          .then(data => {
+            console.log('✅ Backend connection successful:', data);
+          })
+          .catch(error => {
+            console.warn('⚠️  Backend not reachable:', error.message);
+            showMessage(
+              'auth-message',
+              `⚠️ Backend server not reachable at ${API_BASE}. Please start your server first.`,
+              'error'
+            );
+          });
+      });
+    </script>
+  </body>
+</html>

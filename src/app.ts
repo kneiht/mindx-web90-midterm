@@ -1,6 +1,9 @@
 import express from 'express';
 import { db, type DB } from './db';
 import router from './routes';
+import { errorHandler } from './middleware/error-handler.middleware';
+import cors from 'cors';
+import { logger } from './middleware/logger.middleware';
 
 interface Config {
   port: number;
@@ -14,7 +17,7 @@ interface App {
 }
 
 const app: App = {
-  config: { port: 3000, env: 'dev' },
+  config: { port: 3000, env: 'development' },
   db,
   run() {},
 };
@@ -24,7 +27,10 @@ app.run = function () {
   const expressApp = express();
 
   // Add middlewware
+  expressApp.use(logger);
   expressApp.use(express.json());
+  expressApp.use(errorHandler);
+  expressApp.use(cors());
 
   // Routing
   expressApp.use(router);
